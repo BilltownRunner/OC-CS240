@@ -11,8 +11,8 @@ def init():
     return pygame.display.set_mode((width,height))
 
 def main(screen):
-    flag1=flag.flag()
-    flag2=flag.flag()
+    flag1=flag.flag1()
+    flag2=flag.flag2()
     flag2.left=100
     flag2.top=100
     baseball = pygame.image.load("baseball.jpg").convert_alpha()
@@ -23,8 +23,6 @@ def main(screen):
     ball = pygame.transform.scale(baseball, (50,50))
     ball_rect = ball.get_rect()
     running = True
-    horizontal = 1
-    vertical = 3
     while running:
         screen.fill((0,0,255))
         #colors screen blue
@@ -42,16 +40,10 @@ def main(screen):
 ##        elif ball_rect.top <= 0:
 ##            vertical = 3
 
-        if flag2.left <= width:
-            flag2.left += horizontal
-        else:
-            horizontal= -horizontal
-            flag2.left+=horizontal
-        if flag2.top <= height:
-            flag2.top += vertical
-        else:
-            vertical= -vertical
-            flag2.top+= vertical
+    #Flag1
+	flag1.update(screen)
+	flag2.update(screen)
+	
 
         #rotates image
         #we are creating a new surface

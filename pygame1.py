@@ -15,49 +15,32 @@ def main(screen):
     flag2=flag.flag2()
     flag2.left=100
     flag2.top=100
+    flag3=flag.flag3()
+    flag3.left=300
+    flag3.top=150
     baseball = pygame.image.load("baseball.jpg").convert_alpha()
+    
     #inputs are: Surface, color, position(x,y), radius
     pygame.draw.circle(screen,(100,100,100),(20,20),15) #firstinput-screen orbb?
     baseball_rect = baseball.get_rect()
+    
     #make the image smaller
     ball = pygame.transform.scale(baseball, (50,50))
     ball_rect = ball.get_rect()
     running = True
     while running:
         screen.fill((0,0,255))
-        #colors screen blue
-##        screen.blit(ball,ball_rect)     #Draws ball on screen
-##        ball_rect[0] += horizontal      #moves ball right
-##        ball_rect[1] += vertical        #moves ball up
 
-        #keeps ball on screen
-##        if ball_rect.right >= width:
-##            horizontal = -1
-##        elif ball_rect.left <= 0:
-##            horizontal = 1
-##        if ball_rect.bottom >= height:
-##            vertical = -3
-##        elif ball_rect.top <= 0:
-##            vertical = 3
-
-    #Flag1
+	#Flag1
 	flag1.update(screen)
 	flag2.update(screen)
+	flag3.update(screen)
 	
-
-        #rotates image
-        #we are creating a new surface
-##        spun = pygame.transform.rotate(ball,30)
-##        spun_rect= spun.get_rect()
-##
-##        #draws the center of the image
-##        shrink = ball_rect.width-spun_rect.width
-##        spun_rect.inflate_ip(shrink,shrink)
-##        ball.blit(spun,(0,0),spun_rect)
         flag1.draw(screen)
         flag2.draw(screen)
-##        
-##        #waits .25 milliseconds to redraw the baseball
+	flag3.draw(screen)
+       
+        ###waits .25 milliseconds to redraw the baseball
         pygame.time.wait(50)
 
         #draws buffers into window

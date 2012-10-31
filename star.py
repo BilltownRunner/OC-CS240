@@ -9,6 +9,7 @@ def init():
     # Screen
     return pygame.display.set_mode((width, height))
 
+#Drawing space and establishing the colors of our stars
 def draw_space(surface, stars):
     surface.fill((0, 0, 0))          # Draw the vacuum of space
     for s in stars:
@@ -24,6 +25,7 @@ def draw_space(surface, stars):
             star = pygame.Color(170,170,170)
         pygame.draw.circle(surface, star, s[:2], s[2])
 
+#Creating stars of different sizes. The smaller stars are more likely to appear than the bigger stars. Random x/y coordinates and random size with weighted probablities.
 def build_space(screen):
     # Get a new surface and its parameters
     space = screen.copy()
@@ -49,6 +51,7 @@ def build_space(screen):
     draw_space(space, stars)
     return space
 
+#Putting in a ship image and resizing the image to only take a portion of it.
 def load_ship():
     ship = pygame.image.load('ship.png').convert()
     raw_size = ship.get_size()
@@ -60,6 +63,8 @@ def load_ship():
     ship.set_colorkey((191, 220, 191))
     return ship
 
+
+#Trying to add a meteor - need to make it smaller
 #def red_meteor():
     #meteor = pygame.image.load('meteor.png').convert()
     #raw_size = meteor.get_size()

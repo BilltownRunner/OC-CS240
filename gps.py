@@ -31,10 +31,12 @@ class path(object):
         if len(self.waypoints) < 2:
             return 0 
         distance1 = 0
+        
         for index in range(1,len(self.waypoints)):
             w1=self.waypoints[index-1]
             w2=self.waypoints[index]
-
+            
+            #Converts our coordinates into radians
             distancelatitude = math.radians(w2.latitude-w1.latitude)
             distancelongitude = math.radians(w2.longitude-w1.longitude)
             a = math.sin(distancelatitude/2) * math.sin(distancelatitude/2) + math.cos(math.radians(w1.latitude)) \

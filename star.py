@@ -11,7 +11,7 @@ def init():
 
 #Drawing space and establishing the colors of our stars
 def draw_space(surface, stars):
-    surface.fill((0, 0, 0))          # Draw the vacuum of space
+    surface.fill((0, 0, 0))          # Draw the vacuum of space at all black
     for s in stars:
         if s[2] == 3:
             star = pygame.Color(255, 255, 255)
@@ -64,28 +64,32 @@ def load_ship():
     return ship
 
 
-#Trying to add a meteor - need to make it smaller
-#def red_meteor():
-    #meteor = pygame.image.load('meteor.png').convert()
-    #raw_size = meteor.get_size()
+#Raw_size[0] deals with the width of the image and raw_size[1] deals with height of the image
+def red_meteor():
+    meteor = pygame.image.load('meteor.png').convert()
+    raw_size = meteor.get_size()
+    
+    #First two coordinates deal with the starting location on the image, last two take off the right and bottom of the image
+    meteor = meteor.subsurface((400,100, raw_size[0]-800, raw_size[1]-250))
+    raw_size = meteor.get_size()
+    
+    #Shrinks the image by 1/5
+    meteor = pygame.transform.scale(meteor,(raw_size[0]/5,raw_size[1]/5))
 
-    #meteor = meteor.subsurface((0,0, raw_size[0], raw_size[1]))
-    #new_size = meteor.get_size()
-
-    #meteor = meteor.subsurface((new_size[0]/2-10, new_size[1] /2, new_size[0] / 2 +10, new_size[1] /2))
-    #meteor.set_colorkey((100,100,100))
-    #return meteor
+    meteor.set_colorkey((0,0,0))
+    return meteor
 
 def main(screen):
     running = True
 
     ship = load_ship()
-    space = build_space(screen)
-    #meteor = red_meteor()
+    meteor = red_meteor()
+    space = build_space(screen)   
     while running:
+        #coordinates on blit state where we will place the image
         screen.blit(space, (0, 0))
         screen.blit(ship, (100, 100))
-        #screen.blit(meteor, (150,150))
+        screen.blit(meteor, (250,250))
         pygame.display.flip()           # Display screen in window
 
         for event in pygame.event.get():

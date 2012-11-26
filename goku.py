@@ -10,13 +10,13 @@ class Goku(object):
         self.image.set_colorkey(self.image.get_at((0,0)))
         self.x = 60
         self.y = 100
-        self.kamehameha = [[130,200]]
+        self.kamehameha = [[110,200],[140,200],[170,200]]
         self.frame = 0
 
     def draw(self,screen):
         screen.blit(self.image, (self.x, self.y))
         for attack in self.kamehameha:
-            pygame.draw.circle(screen, (255,255,255),(attack[0], attack[1]),6)
+            pygame.draw.circle(screen, (230,230,230),(attack[0], attack[1]),11)
 
     def update(self,screen):
         self.frame +=1
@@ -32,7 +32,9 @@ class Goku(object):
         
         #Attack
         if self.y %100 ==0:
-            self.kamehameha.append([130,self.y +100])
+            self.kamehameha.append([110,self.y+85])
+            self.kamehameha.append([140,self.y+85])
+            self.kamehameha.append([170,self.y+85])
 
 def init():
     width, height = 800,600

@@ -1,3 +1,7 @@
+#Greg Lutzke
+#11/26/12
+#Goku tries to take out the villain - Frieza
+
 import pygame
 
 class Goku(object):
@@ -10,31 +14,83 @@ class Goku(object):
         self.image.set_colorkey(self.image.get_at((0,0)))
         self.x = 60
         self.y = 100
-        self.kamehameha = [[110,200],[140,200],[170,200]]
+        #Empty list because attacks are added to the list on command
+        self.kamehameha = []
+
         self.frame = 0
+        self.velocity = 0
 
     def draw(self,screen):
         screen.blit(self.image, (self.x, self.y))
         for attack in self.kamehameha:
+            #Shape of the attack (circle)
             pygame.draw.circle(screen, (230,230,230),(attack[0], attack[1]),11)
 
     def update(self,screen):
         self.frame +=1
 
+        remove = False
         for attack in self.kamehameha:
-            attack[0] += 1
+            #Controls movement speed of attack
+            attack[0] += 5
+            if attack[0] > screen.get_width():
+                remove = True
+
+        if remove:
+            del self.kamehameha[0]
         
         #Move Goku
-        self.y += 1
-        if self.y >screen.get_height():
-            print len(self.kamehameha)
-            self.y=0
+        self.y += self.velocity
+        if self.y >screen.get_height() and self.velocity >0:
+            self.y = -self.image.get_height() + 70
+        if self.y <-self.image.get_height() and self.velocity < 0:
+            self.y = screen.get_height() - 70
+           
         
         #Attack
-        if self.y %100 ==0:
-            self.kamehameha.append([110,self.y+85])
-            self.kamehameha.append([140,self.y+85])
-            self.kamehameha.append([170,self.y+85])
+    def shoot(self):
+        if len(self.kamehameha) < 6:
+            y_loc = self.y + 100
+            self.kamehameha.append([self.x+50, y_loc])
+
+    #Movement speed of Goku when going down           
+    def move_down(self):
+        self.velocity = 8
+  
+    #Movement speed of Goku when going up  
+    def move_up(self):
+        self.velocity = -8
+
+class Villain(object):
+    def __init__(self,x,y):
+        self.image = pygame.image.load('frieza.jpg').convert()
+        width,height = self.image.get_size()
+        self.image = pygame.transform.scale(self.image,(width/2,height/2))
+        self.x = x
+        self.y = y
+        self.frame = 0
+        self.velocity = 0
+        
+    def draw(self,screen):
+        screen.blit(self.image, (self.x, self.y))
+     
+    #Need to get this section working to get my villain to move   
+    def update(self,screen):
+        if random.randint(1,10) == 1:
+            self.velocity *= -1
+        
+        self.frame += 1        
+        
+        if self.y >screen.get_height() and self.velocity >0:
+            self.y = -self.image.get_height() + 70
+        if self.y < -self.image.get_height() and self.velocity <0:
+            self.y = screen.get_height() - 70
+
+    def move_down(self):
+        self.velocity = 10
+
+    def move_up(self):
+        self.velocity = -10
 
 def init():
     width, height = 800,600
@@ -45,18 +101,32 @@ def init():
 def main(screen):
     clock =pygame.time.Clock()
     goku = Goku()
+    #Starting location of Villain
+    villain = Villain(500,275)
+    
+    villain.move_up()
     running = True
     while running:
         #fils background with the point (0,0) on the Goku image
         screen.fill(goku.image.get_colorkey())
         
         goku.draw(screen)
+        villain.draw(screen)
         pygame.display.flip()
         goku.update(screen)
+        villain.draw(screen)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_q):
                 running = False
+
+            if event.type == pygame.KEYDOWN:
+                if event.key == pygame.K_SPACE:
+                    goku.shoot()
+                if event.key == pygame.K_s:
+                    goku.move_down()
+                if event.key == pygame.K_w:
+                    goku.move_up()
         clock.tick(40)
 
 screen = init()

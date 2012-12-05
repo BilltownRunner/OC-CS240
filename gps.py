@@ -65,8 +65,11 @@ p3=path('TheShire to HelmsDeep')
 p3.add_waypoint(w1)
 p3.add_waypoint(w5)
 
+print 'There and back again - A Hobbit\'s tale:'
 print p1.distance()
+print 'Distance from The Black Gate to Mount Doom:'
 print p2.distance()
+print 'Distance from The Shire to Helms Deep:'
 print p3.distance()
 
 

@@ -1,8 +1,9 @@
 #Greg Lutzke
 #11/26/12
-#Goku tries to take out the villain - Frieza
+#Goku tries to take out the villain: Frieza
 
 import pygame
+import random
 
 class Goku(object):
     def __init__(self):
@@ -32,7 +33,7 @@ class Goku(object):
         remove = False
         for attack in self.kamehameha:
             #Controls movement speed of attack
-            attack[0] += 5
+            attack[0] += 10
             if attack[0] > screen.get_width():
                 remove = True
 
@@ -41,6 +42,7 @@ class Goku(object):
         
         #Move Goku
         self.y += self.velocity
+        #Controls what happens once the image is off-screen
         if self.y >screen.get_height() and self.velocity >0:
             self.y = -self.image.get_height() + 70
         if self.y <-self.image.get_height() and self.velocity < 0:
@@ -49,23 +51,24 @@ class Goku(object):
         
         #Attack
     def shoot(self):
-        if len(self.kamehameha) < 6:
+        #Number of attacks that can appear on screen at once
+        if len(self.kamehameha) < 3:
             y_loc = self.y + 100
             self.kamehameha.append([self.x+50, y_loc])
 
     #Movement speed of Goku when going down           
     def move_down(self):
-        self.velocity = 8
+        self.velocity = 10
   
     #Movement speed of Goku when going up  
     def move_up(self):
-        self.velocity = -8
+        self.velocity = -10
 
 class Villain(object):
     def __init__(self,x,y):
         self.image = pygame.image.load('frieza.jpg').convert()
         width,height = self.image.get_size()
-        self.image = pygame.transform.scale(self.image,(width/2,height/2))
+        self.image = pygame.transform.scale(self.image,(width/3,height/3))
         self.x = x
         self.y = y
         self.frame = 0
@@ -73,14 +76,19 @@ class Villain(object):
         
     def draw(self,screen):
         screen.blit(self.image, (self.x, self.y))
-     
-    #Need to get this section working to get my villain to move   
+       
     def update(self,screen):
-        if random.randint(1,10) == 1:
+        #The higher the screen input the more frequently the villian will change direction
+        if random.randint(1,20) == 1:
+            #The scalar that the villian will change direction
             self.velocity *= -1
+        
+        #Gives movement to Villian
+        self.y = self.velocity +self.y
         
         self.frame += 1        
         
+        #Controls what happens once the image is off-screen
         if self.y >screen.get_height() and self.velocity >0:
             self.y = -self.image.get_height() + 70
         if self.y < -self.image.get_height() and self.velocity <0:
@@ -102,7 +110,7 @@ def main(screen):
     clock =pygame.time.Clock()
     goku = Goku()
     #Starting location of Villain
-    villain = Villain(500,275)
+    villain = Villain(700,275)
     
     villain.move_up()
     running = True
@@ -114,7 +122,7 @@ def main(screen):
         villain.draw(screen)
         pygame.display.flip()
         goku.update(screen)
-        villain.draw(screen)
+        villain.update(screen)
 
         for event in pygame.event.get():
             if event.type == pygame.QUIT or (event.type == pygame.KEYDOWN and event.key == pygame.K_q):

@@ -1,3 +1,7 @@
+#Greg Lutzke
+#Fall 2012 CS240
+#Draws a meteor in space - For some reason it takes two trials to get the program to run
+
 import random
 import pygame
 

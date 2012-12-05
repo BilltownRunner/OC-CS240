@@ -1,4 +1,4 @@
-# Greg Lutzke
+# Greg Lutzke 
 #GPS Unit for Hikers
 #10/17/12
 #Version 1 - A program that loops and prompts the user for functionality provided by the GPS unit. Lists distances from various LotR places.
